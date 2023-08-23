@@ -1,0 +1,112 @@
+---
+title: "Why use spatial models?"
+author: "Adam Howes"
+date: "August 2023"
+output:
+  beamer_presentation:
+    latex_engine: pdflatex
+    highlight: haddock
+    fig_width: 7
+    fig_height: 3
+    includes:
+      in_header: preamble.tex
+subtitle: Zambia HIV Estimates Technical Working Group
+bibliography: citations.bib
+institute: Imperial College London
+---
+
+```{r echo=FALSE}
+knitr::opts_chunk$set(
+  echo = FALSE,
+  warning = FALSE,
+  message = FALSE,
+  dpi = 320,
+  cache = FALSE,
+  fig.align = 'center'
+)
+```
+
+#
+
+```{r}
+knitr::include_graphics("figures/constituency.png")
+```
+
+#
+
+```{r}
+knitr::include_graphics("figures/base.png")
+```
+
+#
+
+```{r}
+knitr::include_graphics("figures/survey1-base.png")
+```
+
+#
+
+```{r}
+knitr::include_graphics("figures/scatter-survey1.png")
+```
+
+#
+
+```{r}
+knitr::include_graphics("figures/survey2-base.png")
+```
+
+#
+
+```{r}
+knitr::include_graphics("figures/scatter-survey2.png")
+```
+
+#
+
+```{r}
+knitr::include_graphics("figures/survey3-base.png")
+```
+
+#
+
+```{r}
+knitr::include_graphics("figures/scatter-survey3.png")
+```
+
+#
+
+```{r}
+knitr::include_graphics("figures/graph.png")
+```
+
+#
+
+```{r}
+knitr::include_graphics("figures/scatter-survey1-modelled.png")
+```
+
+#
+
+```{r}
+knitr::include_graphics("figures/scatter-survey2-modelled.png")
+```
+
+#
+
+```{r}
+knitr::include_graphics("figures/scatter-survey3-modelled.png")
+```
+
+#
+
+* @besag1991bayesian
+* @simpson2017penalising
+
+# Thanks for listening!
+
+```{r echo=FALSE, out.width = "300px", fig.align='center'}
+knitr::include_graphics("figures/mrc-gida-icl-mlgh.png")
+```
+
+# References {.allowframebreaks}
