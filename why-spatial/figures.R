@@ -269,7 +269,7 @@ modelled3 <- ggplot(sf_constituency, aes(fill = smooth3)) +
   theme_void()
 
 survey3 + modelled3 +
-  plot_annotation(title = paste0("Survey of size ", m2))
+  plot_annotation(title = paste0("Survey of size ", m3))
 
 ggsave("figures/survey3-modelled.png", h = 3.5, w = 6)
 
