@@ -83,13 +83,31 @@ knitr::include_graphics("figures/graph.png")
 #
 
 ```{r}
+knitr::include_graphics("figures/survey1-modelled.png")
+```
+
+#
+
+```{r}
 knitr::include_graphics("figures/scatter-survey1-modelled.png")
 ```
 
 #
 
 ```{r}
+knitr::include_graphics("figures/survey2-modelled.png")
+```
+
+#
+
+```{r}
 knitr::include_graphics("figures/scatter-survey2-modelled.png")
+```
+
+#
+
+```{r}
+knitr::include_graphics("figures/survey3-modelled.png")
 ```
 
 #
