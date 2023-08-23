@@ -74,10 +74,12 @@ survey1 <- ggplot(sf_constituency, aes(fill = rho1)) +
     option = "C", direction = -1, limits = c(0, 0.6),
     labels = scales::label_percent(1), na.value = "#481668"
   ) +
-  labs(fill = "", subtitle = paste0("Survey of size ", m1)) +
+  labs(fill = "", subtitle = "Direct estimates") +
+  guides(fill = "none") +
   theme_void()
 
-survey1 + base
+survey1 + base +
+  plot_annotation(title = paste0("Survey of size ", m1))
 
 ggsave("figures/survey1-base.png", h = 3.5, w = 6)
 
@@ -85,7 +87,7 @@ ggplot(sf_constituency, aes(x = rho, y = rho1)) +
   geom_point(alpha = 0.5) +
   geom_abline(slope = 1, intercept = 0, linetype = "dashed") +
   stat_cor(aes(label = after_stat(r.label)), method = "pearson", label.x = 0.9, label.y = 0.1) +
-  labs(x = "Underlying truth", y = paste0("Survey of size ", m1)) +
+  labs(x = "Underlying truth", y = "Estimate", title = paste0("Survey of size ", m1)) +
   lims(x = c(0, 1), y = c(0, 1)) +
   theme_minimal()
 
@@ -101,10 +103,12 @@ survey2 <- ggplot(sf_constituency, aes(fill = rho2)) +
     option = "C", direction = -1, limits = c(0, 0.6),
     labels = scales::label_percent(1)
   ) +
-  labs(fill = "", subtitle = paste0("Survey of size ", m2)) +
+  labs(fill = "", subtitle = "Direct estimates") +
+  guides(fill = "none") +
   theme_void()
 
-survey2 + base
+survey2 + base +
+  plot_annotation(title = paste0("Survey of size ", m2))
 
 ggsave("figures/survey2-base.png", h = 3.5, w = 6)
 
@@ -112,7 +116,7 @@ ggplot(sf_constituency, aes(x = rho, y = rho2)) +
   geom_point(alpha = 0.5) +
   geom_abline(slope = 1, intercept = 0, linetype = "dashed") +
   stat_cor(aes(label = after_stat(r.label)), method = "pearson", label.x = 0.9, label.y = 0.1) +
-  labs(x = "Underlying truth", y = paste0("Survey of size ", m2)) +
+  labs(x = "Underlying truth", y = "Estimate", title = paste0("Survey of size ", m2)) +
   lims(x = c(0, 1), y = c(0, 1)) +
   theme_minimal()
 
@@ -128,10 +132,12 @@ survey3 <- ggplot(sf_constituency, aes(fill = rho3)) +
     option = "C", direction = -1, limits = c(0, 0.6),
     labels = scales::label_percent(1)
   ) +
-  labs(fill = "", subtitle = paste0("Survey of size ", m3)) +
+  labs(fill = "", subtitle = "Direct estimates") +
+  guides(fill = "none") +
   theme_void()
 
-survey3 + base
+survey3 + base +
+  plot_annotation(title = paste0("Survey of size ", m3))  
 
 ggsave("figures/survey3-base.png", h = 3.5, w = 6)
 
@@ -139,8 +145,9 @@ ggplot(sf_constituency, aes(x = rho, y = rho3)) +
   geom_point(alpha = 0.5) +
   geom_abline(slope = 1, intercept = 0, linetype = "dashed") +
   stat_cor(aes(label = after_stat(r.label)), method = "pearson", label.x = 0.9, label.y = 0.1) +
-  labs(x = "Underlying truth", y = paste0("Survey of size ", m3)) +
+  labs(x = "Underlying truth", y = "Estimate", title = paste0("Survey of size ", m3)) +
   lims(x = c(0, 1), y = c(0, 1)) +
+  guides(fill = "none") +
   theme_minimal()
 
 ggsave("figures/scatter-survey3.png", h = 3.5, w = 6)
@@ -184,13 +191,13 @@ sf_constituency %>%
   facet_grid(~ name) +
   geom_abline(slope = 1, intercept = 0, linetype = "dashed") +
   stat_cor(aes(label = after_stat(r.label)), method = "pearson", label.x = 0.75, label.y = 0.1) +
-  labs(x = "Underlying truth", y = paste0("Survey of size ", m1)) +
+  labs(x = "Underlying truth", y = "Estimate", title = paste0("Survey of size ", m1)) +
   lims(x = c(0, 1), y = c(0, 1)) +
   theme_minimal()
 
 ggsave("figures/scatter-survey1-modelled.png", h = 3.5, w = 6)
 
-sf_constituency %>%
+scatter2 <- sf_constituency %>%
   sf::st_drop_geometry() %>%
   dplyr::select(rho, rho2, smooth2) %>%
   tidyr::pivot_longer(cols = -rho, names_to = "name", values_to = "value") %>%
@@ -200,9 +207,11 @@ sf_constituency %>%
   facet_grid(~ name) +
   geom_abline(slope = 1, intercept = 0, linetype = "dashed") +
   stat_cor(aes(label = after_stat(r.label)), method = "pearson", label.x = 0.75, label.y = 0.1) +
-  labs(x = "Underlying truth", y = paste0("Survey of size ", m2)) +
+  labs(x = "Underlying truth", y = "Estimate", title = paste0("Survey of size ", m2)) +
   lims(x = c(0, 1), y = c(0, 1)) +
   theme_minimal()
+
+scatter2
 
 ggsave("figures/scatter-survey2-modelled.png", h = 3.5, w = 6)
 
@@ -216,7 +225,7 @@ sf_constituency %>%
   facet_grid(~ name) +
   geom_abline(slope = 1, intercept = 0, linetype = "dashed") +
   stat_cor(aes(label = after_stat(r.label)), method = "pearson", label.x = 0.75, label.y = 0.1) +
-  labs(x = "Underlying truth", y = paste0("Survey of size ", m3)) +
+  labs(x = "Underlying truth", y = "Estimate", title = paste0("Survey of size ", m3)) +
   lims(x = c(0, 1), y = c(0, 1)) +
   theme_minimal()
 
@@ -228,10 +237,11 @@ modelled1 <- ggplot(sf_constituency, aes(fill = smooth1)) +
     option = "C", direction = -1, limits = c(0, 0.6),
     labels = scales::label_percent(1)
   ) +
-  labs(fill = "", subtitle = paste0("Survey of size ", m1)) +
+  labs(fill = "", subtitle = "Modelled estimates") +
   theme_void()
 
-survey1 + modelled1
+survey1 + modelled1 +
+  plot_annotation(title = paste0("Survey of size ", m1))
 
 ggsave("figures/survey1-modelled.png", h = 3.5, w = 6)
 
@@ -241,10 +251,11 @@ modelled2 <- ggplot(sf_constituency, aes(fill = smooth2)) +
     option = "C", direction = -1, limits = c(0, 0.6),
     labels = scales::label_percent(1)
   ) +
-  labs(fill = "", subtitle = paste0("Survey of size ", m2)) +
+  labs(fill = "", subtitle = "Modelled estimates") +
   theme_void()
 
-survey2 + modelled2
+survey2 + modelled2 +
+  plot_annotation(title = paste0("Survey of size ", m2))
 
 ggsave("figures/survey2-modelled.png", h = 3.5, w = 6)
 
@@ -254,9 +265,14 @@ modelled3 <- ggplot(sf_constituency, aes(fill = smooth3)) +
     option = "C", direction = -1, limits = c(0, 0.6),
     labels = scales::label_percent(1)
   ) +
-  labs(fill = "", subtitle = paste0("Survey of size ", m3)) +
+  labs(fill = "", subtitle = "Modelled estimates") +
   theme_void()
 
-survey3 + modelled3
+survey3 + modelled3 +
+  plot_annotation(title = paste0("Survey of size ", m2))
 
 ggsave("figures/survey3-modelled.png", h = 3.5, w = 6)
+
+scatter2 / (survey2 + modelled2)
+
+ggsave("figures/abstract.png", h = 5, w = 6)
