@@ -77,6 +77,36 @@ knitr::include_graphics("figures/scatter-survey3.png")
 #
 
 ```{r}
+knitr::include_graphics("figures/falls1.png")
+```
+
+#
+
+```{r}
+knitr::include_graphics("figures/falls2.png")
+```
+
+#
+
+```{r}
+knitr::include_graphics("figures/falls3.png")
+```
+
+#
+
+```{r}
+knitr::include_graphics("figures/falls4.png")
+```
+
+#
+
+```{r}
+knitr::include_graphics("figures/base-missing.png")
+```
+
+#
+
+```{r}
 knitr::include_graphics("figures/graph.png")
 ```
 
@@ -116,12 +146,17 @@ knitr::include_graphics("figures/survey3-modelled.png")
 knitr::include_graphics("figures/scatter-survey3-modelled.png")
 ```
 
-#
+# Takeaways
 
-* @besag1991bayesian
-* @simpson2017penalising
+* Small samples give noisy estimates $\color{lolit}{\text{that we probably shouldn't trust}}$
+* Nearby things are often similar $\color{lolit}{\text{but not always}}$
+* Spatial smoothing can help $\color{lolit}{\text{by borrowing information}}$
 
 # Thanks for listening!
+
+* For more information about the spatial models we use:
+  * Online book of @moraga2019geospatial
+  * Papers of @besag1991bayesian and @simpson2017penalising
 
 ```{r echo=FALSE, out.width = "300px", fig.align='center'}
 knitr::include_graphics("figures/mrc-gida-icl-mlgh.png")

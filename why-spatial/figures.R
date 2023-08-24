@@ -38,6 +38,7 @@ nb_sf <- spdep::nb2lines(nb, coords = sp::coordinates(as(sf_constituency, "Spati
 
 ggplot(sf_constituency) +
   geom_sf(data = nb_sf) +
+  labs(subtitle = "Borrow information from neighbouring constituencies") +
   theme_void()
 
 ggsave("figures/graph.png", h = 3.5, w = 6)
@@ -276,3 +277,17 @@ ggsave("figures/survey3-modelled.png", h = 3.5, w = 6)
 scatter2 / (survey2 + modelled2)
 
 ggsave("figures/abstract.png", h = 5, w = 6)
+
+sf_constituency$rho_na <- sf_constituency$rho 
+sf_constituency$rho_na[58] <- NA
+
+ggplot(sf_constituency, aes(fill = rho_na)) +
+  geom_sf(size = 0.1, color = "grey30") +
+  scale_fill_viridis_c(
+    option = "C", direction = -1, limits = c(0, 0.6),
+    labels = scales::label_percent(1)
+  ) +
+  labs(fill = "", subtitle = "What is under this missing value?") +
+  theme_void()
+
+ggsave("figures/base-missing.png", h = 3.5, w = 6)

@@ -46,3 +46,5 @@ ggplot(df, aes(x = value, fill = type)) +
   labs(x = "", y = "Number of pixels") +
   guides(fill = "none") +
   theme_minimal()
+
+
