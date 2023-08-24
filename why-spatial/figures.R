@@ -274,7 +274,8 @@ survey3 + modelled3 +
 
 ggsave("figures/survey3-modelled.png", h = 3.5, w = 6)
 
-scatter2 / (survey2 + modelled2)
+scatter2 / (survey2 + modelled2) +
+  plot_annotation(caption = "Source: Simulated data. Does not represent any particular indicator.")
 
 ggsave("figures/abstract.png", h = 5, w = 6)
 
