@@ -67,9 +67,9 @@ ggsave("figures/base.png", h = 3.5, w = 6)
 
 m1 <- 5
 y1 <- rbinom(n = nrow(sf_constituency), size = m1, prob = rho)
-sf_constituency$rho1 <- y1 / m1
+sf_constituency$direct1 <- y1 / m1
 
-survey1 <- ggplot(sf_constituency, aes(fill = rho1)) +
+survey1 <- ggplot(sf_constituency, aes(fill = direct1)) +
   geom_sf(size = 0.1, color = "grey30") +
   scale_fill_viridis_c(
     option = "C", direction = -1, limits = c(0, 0.6),
@@ -84,7 +84,7 @@ survey1 + base +
 
 ggsave("figures/survey1-base.png", h = 3.5, w = 6)
 
-ggplot(sf_constituency, aes(x = rho, y = rho1)) +
+ggplot(sf_constituency, aes(x = rho, y = direct1)) +
   geom_point(alpha = 0.5) +
   geom_abline(slope = 1, intercept = 0, linetype = "dashed") +
   stat_cor(aes(label = after_stat(r.label)), method = "pearson", label.x = 0.9, label.y = 0.1) +
@@ -96,9 +96,9 @@ ggsave("figures/scatter-survey1.png", h = 3.5, w = 6)
 
 m2 <- 25
 y2 <- rbinom(n = nrow(sf_constituency), size = m2, prob = rho)
-sf_constituency$rho2 <- y2 / m2
+sf_constituency$direct2 <- y2 / m2
 
-survey2 <- ggplot(sf_constituency, aes(fill = rho2)) +
+survey2 <- ggplot(sf_constituency, aes(fill = direct2)) +
   geom_sf(size = 0.1, color = "grey30") +
   scale_fill_viridis_c(
     option = "C", direction = -1, limits = c(0, 0.6),
@@ -113,7 +113,7 @@ survey2 + base +
 
 ggsave("figures/survey2-base.png", h = 3.5, w = 6)
 
-ggplot(sf_constituency, aes(x = rho, y = rho2)) +
+ggplot(sf_constituency, aes(x = rho, y = direct2)) +
   geom_point(alpha = 0.5) +
   geom_abline(slope = 1, intercept = 0, linetype = "dashed") +
   stat_cor(aes(label = after_stat(r.label)), method = "pearson", label.x = 0.9, label.y = 0.1) +
@@ -125,9 +125,9 @@ ggsave("figures/scatter-survey2.png", h = 3.5, w = 6)
 
 m3 <- 125
 y3 <- rbinom(n = nrow(sf_constituency), size = m3, prob = rho)
-sf_constituency$rho3 <- y3 / m3
+sf_constituency$direct3 <- y3 / m3
 
-survey3 <- ggplot(sf_constituency, aes(fill = rho3)) +
+survey3 <- ggplot(sf_constituency, aes(fill = direct3)) +
   geom_sf(size = 0.1, color = "grey30") +
   scale_fill_viridis_c(
     option = "C", direction = -1, limits = c(0, 0.6),
@@ -142,7 +142,7 @@ survey3 + base +
 
 ggsave("figures/survey3-base.png", h = 3.5, w = 6)
 
-ggplot(sf_constituency, aes(x = rho, y = rho3)) +
+ggplot(sf_constituency, aes(x = rho, y = direct3)) +
   geom_point(alpha = 0.5) +
   geom_abline(slope = 1, intercept = 0, linetype = "dashed") +
   stat_cor(aes(label = after_stat(r.label)), method = "pearson", label.x = 0.9, label.y = 0.1) +
@@ -178,15 +178,15 @@ fit2 <- fit_model(dat2)
 dat3 <- list(id = 1:nrow(sf_constituency), y = y3, m = m3)
 fit3 <- fit_model(dat3)
 
-sf_constituency$smooth1 <- fit1$summary.fitted.values$mean
-sf_constituency$smooth2 <- fit2$summary.fitted.values$mean
-sf_constituency$smooth3 <- fit3$summary.fitted.values$mean
+sf_constituency$modelled1 <- fit1$summary.fitted.values$mean
+sf_constituency$modelled2 <- fit2$summary.fitted.values$mean
+sf_constituency$modelled3 <- fit3$summary.fitted.values$mean
 
 sf_constituency %>%
   sf::st_drop_geometry() %>%
-  dplyr::select(rho, rho1, smooth1) %>%
+  dplyr::select(rho, direct1, modelled1) %>%
   tidyr::pivot_longer(cols = -rho, names_to = "name", values_to = "value") %>%
-  mutate(name = forcats::fct_recode(name, "Direct estimates" = "rho1", "Modelled estimates" = "smooth1")) %>%
+  mutate(name = forcats::fct_recode(name, "Direct estimates" = "direct1", "Modelled estimates" = "modelled1")) %>%
   ggplot(aes(x = rho, y = value)) +
   geom_point(alpha = 0.5) +
   facet_grid(~ name) +
@@ -200,9 +200,9 @@ ggsave("figures/scatter-survey1-modelled.png", h = 3.5, w = 6)
 
 scatter2 <- sf_constituency %>%
   sf::st_drop_geometry() %>%
-  dplyr::select(rho, rho2, smooth2) %>%
+  dplyr::select(rho, direct2, modelled2) %>%
   tidyr::pivot_longer(cols = -rho, names_to = "name", values_to = "value") %>%
-  mutate(name = forcats::fct_recode(name, "Direct estimates" = "rho2", "Modelled estimates" = "smooth2")) %>%
+  mutate(name = forcats::fct_recode(name, "Direct estimates" = "direct2", "Modelled estimates" = "modelled2")) %>%
   ggplot(aes(x = rho, y = value)) +
   geom_point(alpha = 0.5) +
   facet_grid(~ name) +
@@ -218,9 +218,9 @@ ggsave("figures/scatter-survey2-modelled.png", h = 3.5, w = 6)
 
 sf_constituency %>%
   sf::st_drop_geometry() %>%
-  dplyr::select(rho, rho3, smooth3) %>%
+  dplyr::select(rho, direct3, modelled3) %>%
   tidyr::pivot_longer(cols = -rho, names_to = "name", values_to = "value") %>%
-  mutate(name = forcats::fct_recode(name, "Direct estimates" = "rho3", "Modelled estimates" = "smooth3")) %>%
+  mutate(name = forcats::fct_recode(name, "Direct estimates" = "direct3", "Modelled estimates" = "modelled3")) %>%
   ggplot(aes(x = rho, y = value)) +
   geom_point(alpha = 0.5) +
   facet_grid(~ name) +
@@ -232,7 +232,7 @@ sf_constituency %>%
 
 ggsave("figures/scatter-survey3-modelled.png", h = 3.5, w = 6)
 
-modelled1 <- ggplot(sf_constituency, aes(fill = smooth1)) +
+modelled1 <- ggplot(sf_constituency, aes(fill = modelled1)) +
   geom_sf(size = 0.1, color = "grey30") +
   scale_fill_viridis_c(
     option = "C", direction = -1, limits = c(0, 0.6),
@@ -246,7 +246,7 @@ survey1 + modelled1 +
 
 ggsave("figures/survey1-modelled.png", h = 3.5, w = 6)
 
-modelled2 <- ggplot(sf_constituency, aes(fill = smooth2)) +
+modelled2 <- ggplot(sf_constituency, aes(fill = modelled2)) +
   geom_sf(size = 0.1, color = "grey30") +
   scale_fill_viridis_c(
     option = "C", direction = -1, limits = c(0, 0.6),
@@ -260,7 +260,7 @@ survey2 + modelled2 +
 
 ggsave("figures/survey2-modelled.png", h = 3.5, w = 6)
 
-modelled3 <- ggplot(sf_constituency, aes(fill = smooth3)) +
+modelled3 <- ggplot(sf_constituency, aes(fill = modelled3)) +
   geom_sf(size = 0.1, color = "grey30") +
   scale_fill_viridis_c(
     option = "C", direction = -1, limits = c(0, 0.6),
@@ -292,3 +292,56 @@ ggplot(sf_constituency, aes(fill = rho_na)) +
   theme_void()
 
 ggsave("figures/base-missing.png", h = 3.5, w = 6)
+
+maps <- sf_constituency %>%
+  tidyr::pivot_longer(cols = c(direct1, direct2, direct3, modelled1, modelled2, modelled3), names_to = "id", values_to = "est") %>%
+  tidyr::separate(id, c("type", "sample_size"), sep = "(?<=[a-zA-Z_])\\s*(?=[0-9])") %>%
+  mutate(
+    sample_size = 5^as.numeric(sample_size),
+    type = stringr::str_to_title(type)
+  ) %>%
+  ggplot(aes(fill = est)) +
+  geom_sf(size = 0.1, color = "grey30") +
+  facet_grid(sample_size ~ type) +
+  scale_fill_viridis_c(
+    option = "C", direction = -1, limits = c(0, 0.6),
+    labels = scales::label_percent(1), na.value = "#481668"
+  ) +
+  labs(fill = "") +
+  theme_void() +
+  theme(
+    legend.position = "bottom",
+    legend.key.width = unit(1, 'cm')
+  )
+
+outer_label <- ggplot() + 
+  geom_blank() +
+  labs(y = "Sample size") +
+  scale_y_continuous(position = "right") +
+  theme(panel.grid = element_blank(), panel.background = element_blank(), plot.margin = margin(0, 0, 0, 0, "pt"))
+
+maps + outer_label + plot_layout(widths = c(25, 1))
+
+ggsave("figures/zmb-maps.png", h = 7, w = 6.25)
+
+scatter <- sf_constituency %>%
+  sf::st_drop_geometry() %>%
+  tidyr::pivot_longer(cols = c(direct1, direct2, direct3, modelled1, modelled2, modelled3), names_to = "id", values_to = "est") %>%
+  tidyr::separate(id, c("type", "sample_size"), sep = "(?<=[a-zA-Z_])\\s*(?=[0-9])") %>%
+  mutate(
+    sample_size = 5^as.numeric(sample_size),
+    type = stringr::str_to_title(type)
+  ) %>%
+  dplyr::select(rho, sample_size, type, est) %>%
+  ggplot(aes(x = rho, y = est)) +
+  geom_point(alpha = 0.5) +
+  facet_grid(sample_size ~ type) +
+  geom_abline(slope = 1, intercept = 0, linetype = "dashed") +
+  stat_cor(aes(label = after_stat(r.label)), method = "pearson", label.x = 0.75, label.y = 0.1) +
+  lims(x = c(0, 1), y = c(0, 1)) +
+  labs(x = "Underlying truth", y = "Estimate") +
+  theme_minimal()
+
+scatter + outer_label + plot_layout(widths = c(25, 1))
+
+ggsave("figures/zmb-scatter.png", h = 7, w = 6.25)
